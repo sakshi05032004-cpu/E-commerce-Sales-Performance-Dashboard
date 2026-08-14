@@ -1,8 +1,8 @@
--Commerce Performance Dashboard
+-Buisness Performance Analytics Dashboard
 
 Overview
 
-An interactive E-Commerce Sales Performance Dashboard built using Python, SQL, and Power BI to analyze sales, revenue, customers, products, and regional performance.
+An interactive Buisness Performance Dashboard built using Python, SQL, and Power BI to analyze sales, revenue, customers, products, and regional performance.
 
 Tools & Technologies
 

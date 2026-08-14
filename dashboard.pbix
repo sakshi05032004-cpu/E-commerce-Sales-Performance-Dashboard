@@ -1,0 +1,425 @@
+-- E-COMMERCE PERFORMANCE DASHBOARD
+-- POWER BI DAX MEASURES
+-- ============================================================
+
+-- ============================================================
+-- 1. BASIC KPIs
+-- ============================================================
+
+Total Revenue =
+SUM(ecommerce_sales[Revenue])
+
+Total Profit =
+SUM(ecommerce_sales[Profit])
+
+Total Orders =
+DISTINCTCOUNT(ecommerce_sales[Order_ID])
+
+Total Customers =
+DISTINCTCOUNT(ecommerce_sales[Customer_ID])
+
+Total Quantity =
+SUM(ecommerce_sales[Quantity])
+
+Average Order Value =
+DIVIDE(
+[Total Revenue],
+[Total Orders],
+0
+)
+
+Profit Margin % =
+DIVIDE(
+[Total Profit],
+[Total Revenue],
+0
+) * 100
+
+Average Revenue per Customer =
+DIVIDE(
+[Total Revenue],
+[Total Customers],
+0
+)
+
+Average Quantity per Order =
+DIVIDE(
+[Total Quantity],
+[Total Orders],
+0
+)
+
+-- ============================================================
+-- 2. CUSTOMER ANALYSIS
+-- ============================================================
+
+New Customers =
+CALCULATE(
+DISTINCTCOUNT(ecommerce_sales[Customer_ID]),
+ecommerce_sales[Customer_Type] = "New Customer"
+)
+
+Returning Customers =
+CALCULATE(
+DISTINCTCOUNT(ecommerce_sales[Customer_ID]),
+ecommerce_sales[Customer_Type] = "Returning Customer"
+)
+
+New Customer Revenue =
+CALCULATE(
+[Total Revenue],
+ecommerce_sales[Customer_Type] = "New Customer"
+)
+
+Returning Customer Revenue =
+CALCULATE(
+[Total Revenue],
+ecommerce_sales[Customer_Type] = "Returning Customer"
+)
+
+New Customer Profit =
+CALCULATE(
+[Total Profit],
+ecommerce_sales[Customer_Type] = "New Customer"
+)
+
+Returning Customer Profit =
+CALCULATE(
+[Total Profit],
+ecommerce_sales[Customer_Type] = "Returning Customer"
+)
+
+-- ============================================================
+-- 3. PRODUCT ANALYSIS
+-- ============================================================
+
+Product Revenue =
+[Total Revenue]
+
+Product Profit =
+[Total Profit]
+
+Product Profit Margin % =
+DIVIDE(
+[Product Profit],
+[Product Revenue],
+0
+) * 100
+
+-- ============================================================
+-- 4. CATEGORY ANALYSIS
+-- ============================================================
+
+Category Revenue =
+CALCULATE(
+[Total Revenue],
+ALLEXCEPT(
+ecommerce_sales,
+ecommerce_sales[Category]
+)
+)
+
+Category Profit =
+CALCULATE(
+[Total Profit],
+ALLEXCEPT(
+ecommerce_sales,
+ecommerce_sales[Category]
+)
+)
+
+Category Profit Margin % =
+DIVIDE(
+[Category Profit],
+[Category Revenue],
+0
+) * 100
+
+-- ============================================================
+-- 5. REGIONAL ANALYSIS
+-- ============================================================
+
+Region Revenue =
+CALCULATE(
+[Total Revenue],
+ALLEXCEPT(
+ecommerce_sales,
+ecommerce_sales[Region]
+)
+)
+
+Region Profit =
+CALCULATE(
+[Total Profit],
+ALLEXCEPT(
+ecommerce_sales,
+ecommerce_sales[Region]
+)
+)
+
+Region Profit Margin % =
+DIVIDE(
+[Region Profit],
+[Region Revenue],
+0
+) * 100
+
+-- ============================================================
+-- 6. TIME ANALYSIS
+-- ============================================================
+
+Previous Year Revenue =
+CALCULATE(
+[Total Revenue],
+SAMEPERIODLASTYEAR(
+ecommerce_sales[Order_Date]
+)
+)
+
+YoY Revenue Growth % =
+DIVIDE(
+[Total Revenue] -
+[Previous Year Revenue],
+[Previous Year Revenue],
+0
+) * 100
+
+Previous Year Profit =
+CALCULATE(
+[Total Profit],
+SAMEPERIODLASTYEAR(
+ecommerce_sales[Order_Date]
+)
+)
+
+YoY Profit Growth % =
+DIVIDE(
+[Total Profit] -
+[Previous Year Profit],
+[Previous Year Profit],
+0
+) * 100
+
+-- ============================================================
+-- 7. MONTHLY ANALYSIS
+-- ============================================================
+
+Monthly Revenue =
+CALCULATE(
+[Total Revenue],
+ALLEXCEPT(
+ecommerce_sales,
+ecommerce_sales[Year],
+ecommerce_sales[Month],
+ecommerce_sales[Month_Name]
+)
+)
+
+Monthly Profit =
+CALCULATE(
+[Total Profit],
+ALLEXCEPT(
+ecommerce_sales,
+ecommerce_sales[Year],
+ecommerce_sales[Month],
+ecommerce_sales[Month_Name]
+)
+)
+
+Monthly Orders =
+CALCULATE(
+[Total Orders],
+ALLEXCEPT(
+ecommerce_sales,
+ecommerce_sales[Year],
+ecommerce_sales[Month],
+ecommerce_sales[Month_Name]
+)
+)
+
+-- ============================================================
+-- 8. REVENUE CONTRIBUTION
+-- ============================================================
+
+Revenue Contribution % =
+DIVIDE(
+[Total Revenue],
+CALCULATE(
+[Total Revenue],
+ALL(ecommerce_sales)
+),
+0
+) * 100
+
+Profit Contribution % =
+DIVIDE(
+[Total Profit],
+CALCULATE(
+[Total Profit],
+ALL(ecommerce_sales)
+),
+0
+) * 100
+
+-- ============================================================
+-- 9. DISCOUNT ANALYSIS
+-- ============================================================
+
+Average Discount =
+AVERAGE(
+ecommerce_sales[Discount]
+)
+
+Discounted Orders =
+CALCULATE(
+[Total Orders],
+ecommerce_sales[Discount] > 0
+)
+
+Discounted Revenue =
+CALCULATE(
+[Total Revenue],
+ecommerce_sales[Discount] > 0
+)
+
+-- ============================================================
+-- 10. SHIPPING ANALYSIS
+-- ============================================================
+
+Orders by Shipping Mode =
+[Total Orders]
+
+Revenue by Shipping Mode =
+[Total Revenue]
+
+Profit by Shipping Mode =
+[Total Profit]
+
+-- ============================================================
+-- 11. PROFITABILITY
+-- ============================================================
+
+Profitable Revenue =
+CALCULATE(
+[Total Revenue],
+ecommerce_sales[Profit] > 0
+)
+
+Loss Revenue =
+CALCULATE(
+[Total Revenue],
+ecommerce_sales[Profit] < 0
+)
+
+Profitable Orders =
+CALCULATE(
+[Total Orders],
+ecommerce_sales[Profit] > 0
+)
+
+Loss Making Orders =
+CALCULATE(
+[Total Orders],
+ecommerce_sales[Profit] < 0
+)
+
+-- ============================================================
+-- 12. TOP PRODUCT ANALYSIS
+-- ============================================================
+
+Top Product Revenue =
+MAXX(
+VALUES(ecommerce_sales[Product_ID]),
+[Total Revenue]
+)
+
+Top Product Profit =
+MAXX(
+VALUES(ecommerce_sales[Product_ID]),
+[Total Profit]
+)
+
+-- ============================================================
+-- 13. CUSTOMER PERFORMANCE
+-- ============================================================
+
+Customer Revenue =
+[Total Revenue]
+
+Customer Profit =
+[Total Profit]
+
+Customer Orders =
+[Total Orders]
+
+Customer AOV =
+DIVIDE(
+[Customer Revenue],
+[Customer Orders],
+0
+)
+
+-- ============================================================
+-- 14. CALCULATED COLUMNS
+-- ============================================================
+
+Profit Status =
+IF(
+ecommerce_sales[Profit] > 0,
+"Profitable",
+IF(
+ecommerce_sales[Profit] < 0,
+"Loss",
+"Break-even"
+)
+)
+
+Sales Performance =
+IF(
+ecommerce_sales[Revenue] >=
+MEDIAN(ecommerce_sales[Revenue]),
+"High Sales",
+"Low Sales"
+)
+
+Order Month =
+FORMAT(
+ecommerce_sales[Order_Date],
+"MMM"
+)
+
+Order Year =
+YEAR(
+ecommerce_sales[Order_Date]
+)
+
+Order Quarter =
+"Q" &
+FORMAT(
+ecommerce_sales[Order_Date],
+"Q"
+)
+
+-- ============================================================
+-- 15. FINAL DASHBOARD KPI
+-- ============================================================
+
+Dashboard KPI =
+VAR RevenueValue = [Total Revenue]
+VAR ProfitValue = [Total Profit]
+VAR OrdersValue = [Total Orders]
+VAR CustomersValue = [Total Customers]
+
+RETURN
+"Revenue: " &
+FORMAT(RevenueValue, "#,##0.00") &
+" | Profit: " &
+FORMAT(ProfitValue, "#,##0.00") &
+" | Orders: " &
+FORMAT(OrdersValue, "#,##0") &
+" | Customers: " &
+FORMAT(CustomersValue, "#,##0")
+
+-- ============================================================
+-- END OF POWER BI DAX CODE
+-- ============================================================

@@ -63,7 +63,7 @@ for col in numeric_columns:
 if df[col].isnull().sum() > 0:
 df[col] = df[col].fillna(df[col].median())
 
-Categorical columns
+#Categorical columns
 
 categorical_columns = df.select_dtypes(
 include=["object"]
@@ -77,29 +77,23 @@ print("Missing values handled.")
 
 
 #CONVERT DATE COLUMNS
-
 date_columns = [
 "Order_Date",
 "Ship_Date"
 ]
-
 for col in date_columns:
 if col in df.columns:
 df[col] = pd.to_datetime(
 df[col],
 errors="coerce"
 )
-
 print("\nDate columns converted successfully.")
 
 
 #CHECK INVALID DATES
 for col in date_columns:
-
 if col in df.columns:
-
-    invalid_dates = df[col].isnull().sum()
-
+ invalid_dates = df[col].isnull().sum()
     print(
         f"Invalid dates in {col}:",
         invalid_dates
@@ -136,7 +130,6 @@ print("\nText columns cleaned.")
 
 
 #CONVERT NUMERIC COLUMNS
-
 numeric_columns = [
 "Sales",
 "Quantity",
@@ -144,25 +137,20 @@ numeric_columns = [
 "Profit",
 "Postal_Code"
 ]
-
 for col in numeric_columns:
-
 if col in df.columns:
-
-    df[col] = pd.to_numeric(
+  df[col] = pd.to_numeric(
         df[col],
         errors="coerce"
     )
 
 #HANDLE INVALID NUMERIC VALUES
-
 for col in [
 "Sales",
 "Quantity",
 "Discount",
 "Profit"
 ]:
-
 if col in df.columns:
      df[col] = df[col].fillna(0)
 
@@ -172,7 +160,6 @@ if col in df.columns:
 
 if "Sales" in df.columns:
   invalid_sales = df[df["Sales"] < 0]
-
 print(
     "\nNegative sales records:",
     len(invalid_sales)
@@ -197,7 +184,6 @@ df = df[df["Quantity"] > 0]
 
 
 #VALIDATE DISCOUNT
-
 if "Discount" in df.columns:
 print(
     "Discount range:",
@@ -214,7 +200,6 @@ df["Discount"] = df["Discount"].clip(
 
 
 #CREATE YEAR COLUMN
-
 if "Order_Date" in df.columns:
 df["Year"] = df["Order_Date"].dt.year
 
@@ -264,7 +249,6 @@ df["Profit_Margin"] = np.where(
 
 #CREATE AVERAGE ORDER VALUE
 if "Order_ID" in df.columns:
-
 order_revenue = (
     df.groupby("Order_ID")["Revenue"]
     .transform("sum")
@@ -357,8 +341,7 @@ if col in df.columns:
 
 
 #FINAL DATA QUALITY CHECK
-print("\n========== FINAL DATA QUALITY CHECK ==========")
-
+print("\n FINAL DATA QUALITY CHECK ")
 print("\nFinal Shape:")
 print(df.shape)
 
@@ -378,10 +361,8 @@ print(df.dtypes)
 
 
 #KPI SUMMARY
-print("\n========== KPI SUMMARY ==========")
-
+print("\n KPI SUMMARY ")
 if "Revenue" in df.columns:
-
 print(
     "Total Revenue:",
     round(df["Revenue"].sum(), 2)
@@ -448,10 +429,8 @@ OUTPUT_FILE,
 index=False
 )
 
-print("\n==========================================")
-print("DATA CLEANING COMPLETED SUCCESSFULLY")
-print("==========================================")
 
+print("DATA CLEANING COMPLETED SUCCESSFULLY")
 print(
 "\nCleaned dataset saved to:",
 OUTPUT_FILE

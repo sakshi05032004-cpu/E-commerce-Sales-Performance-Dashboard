@@ -1,10 +1,5 @@
--- E-COMMERCE PERFORMANCE DASHBOARD
--- POWER BI DAX MEASURES
--- ============================================================
-
--- ============================================================
--- 1. BASIC KPIs
--- ============================================================
+# POWER BI DAX MEASURES
+#BASIC KPIs
 
 Total Revenue =
 SUM(ecommerce_sales[Revenue])
@@ -49,10 +44,7 @@ DIVIDE(
 0
 )
 
--- ============================================================
--- 2. CUSTOMER ANALYSIS
--- ============================================================
-
+#CUSTOMER ANALYSIS
 New Customers =
 CALCULATE(
 DISTINCTCOUNT(ecommerce_sales[Customer_ID]),
@@ -89,10 +81,7 @@ CALCULATE(
 ecommerce_sales[Customer_Type] = "Returning Customer"
 )
 
--- ============================================================
--- 3. PRODUCT ANALYSIS
--- ============================================================
-
+#PRODUCT ANALYSIS
 Product Revenue =
 [Total Revenue]
 
@@ -106,10 +95,7 @@ DIVIDE(
 0
 ) * 100
 
--- ============================================================
--- 4. CATEGORY ANALYSIS
--- ============================================================
-
+#CATEGORY ANALYSIS
 Category Revenue =
 CALCULATE(
 [Total Revenue],
@@ -135,10 +121,7 @@ DIVIDE(
 0
 ) * 100
 
--- ============================================================
--- 5. REGIONAL ANALYSIS
--- ============================================================
-
+#REGIONAL ANALYSIS
 Region Revenue =
 CALCULATE(
 [Total Revenue],
@@ -164,10 +147,7 @@ DIVIDE(
 0
 ) * 100
 
--- ============================================================
--- 6. TIME ANALYSIS
--- ============================================================
-
+#TIME ANALYSIS
 Previous Year Revenue =
 CALCULATE(
 [Total Revenue],
@@ -200,10 +180,7 @@ DIVIDE(
 0
 ) * 100
 
--- ============================================================
--- 7. MONTHLY ANALYSIS
--- ============================================================
-
+#MONTHLY ANALYSIS
 Monthly Revenue =
 CALCULATE(
 [Total Revenue],
@@ -237,10 +214,7 @@ ecommerce_sales[Month_Name]
 )
 )
 
--- ============================================================
--- 8. REVENUE CONTRIBUTION
--- ============================================================
-
+#REVENUE CONTRIBUTION
 Revenue Contribution % =
 DIVIDE(
 [Total Revenue],
@@ -261,10 +235,7 @@ ALL(ecommerce_sales)
 0
 ) * 100
 
--- ============================================================
--- 9. DISCOUNT ANALYSIS
--- ============================================================
-
+#DISCOUNT ANALYSIS
 Average Discount =
 AVERAGE(
 ecommerce_sales[Discount]
@@ -282,10 +253,7 @@ CALCULATE(
 ecommerce_sales[Discount] > 0
 )
 
--- ============================================================
--- 10. SHIPPING ANALYSIS
--- ============================================================
-
+#SHIPPING ANALYSIS
 Orders by Shipping Mode =
 [Total Orders]
 
@@ -295,10 +263,7 @@ Revenue by Shipping Mode =
 Profit by Shipping Mode =
 [Total Profit]
 
--- ============================================================
--- 11. PROFITABILITY
--- ============================================================
-
+#PROFITABILITY
 Profitable Revenue =
 CALCULATE(
 [Total Revenue],
@@ -323,10 +288,7 @@ CALCULATE(
 ecommerce_sales[Profit] < 0
 )
 
--- ============================================================
--- 12. TOP PRODUCT ANALYSIS
--- ============================================================
-
+#TOP PRODUCT ANALYSIS
 Top Product Revenue =
 MAXX(
 VALUES(ecommerce_sales[Product_ID]),
@@ -339,10 +301,7 @@ VALUES(ecommerce_sales[Product_ID]),
 [Total Profit]
 )
 
--- ============================================================
--- 13. CUSTOMER PERFORMANCE
--- ============================================================
-
+#CUSTOMER PERFORMANCE
 Customer Revenue =
 [Total Revenue]
 
@@ -359,10 +318,7 @@ DIVIDE(
 0
 )
 
--- ============================================================
--- 14. CALCULATED COLUMNS
--- ============================================================
-
+#CALCULATED COLUMNS
 Profit Status =
 IF(
 ecommerce_sales[Profit] > 0,
@@ -399,11 +355,7 @@ FORMAT(
 ecommerce_sales[Order_Date],
 "Q"
 )
-
--- ============================================================
--- 15. FINAL DASHBOARD KPI
--- ============================================================
-
+#FINAL DASHBOARD KPI
 Dashboard KPI =
 VAR RevenueValue = [Total Revenue]
 VAR ProfitValue = [Total Profit]
@@ -420,6 +372,3 @@ FORMAT(OrdersValue, "#,##0") &
 " | Customers: " &
 FORMAT(CustomersValue, "#,##0")
 
--- ============================================================
--- END OF POWER BI DAX CODE
--- ============================================================

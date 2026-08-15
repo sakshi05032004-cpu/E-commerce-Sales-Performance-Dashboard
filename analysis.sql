@@ -1,59 +1,34 @@
--- ============================================================
--- E-COMMERCE SALES PERFORMANCE DASHBOARD
--- SQL ANALYSIS
--- ============================================================
+# SQL ANALYSIS
 
--- ============================================================
--- 1. VIEW DATA
--- ============================================================
-
+# VIEW DATA
 SELECT *
 FROM ecommerce_sales;
 
--- ============================================================
--- 2. TOTAL REVENUE
--- ============================================================
-
+# TOTAL REVENUE
 SELECT
 ROUND(SUM(Revenue), 2) AS Total_Revenue
 FROM ecommerce_sales;
 
--- ============================================================
--- 3. TOTAL PROFIT
--- ============================================================
-
+#TOTAL PROFIT
 SELECT
 ROUND(SUM(Profit), 2) AS Total_Profit
 FROM ecommerce_sales;
-
--- ============================================================
--- 4. TOTAL ORDERS
--- ============================================================
-
+#TOTAL ORDERS
 SELECT
 COUNT(DISTINCT Order_ID) AS Total_Orders
 FROM ecommerce_sales;
 
--- ============================================================
--- 5. TOTAL CUSTOMERS
--- ============================================================
-
+#TOTAL CUSTOMERS
 SELECT
 COUNT(DISTINCT Customer_ID) AS Total_Customers
 FROM ecommerce_sales;
 
--- ============================================================
--- 6. TOTAL QUANTITY SOLD
--- ============================================================
-
+#TOTAL QUANTITY SOLD
 SELECT
 SUM(Quantity) AS Total_Quantity_Sold
 FROM ecommerce_sales;
 
--- ============================================================
--- 7. AVERAGE ORDER VALUE (AOV)
--- ============================================================
-
+#AVERAGE ORDER VALUE (AOV)
 SELECT
 ROUND(
 SUM(Revenue) / COUNT(DISTINCT Order_ID),
